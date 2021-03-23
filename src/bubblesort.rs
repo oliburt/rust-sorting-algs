@@ -22,13 +22,13 @@ impl Sorter for BubbleSort {
 
 #[cfg(test)]
 mod tests {
-    use super::super::sort;
-    use super::*;
+    use super::{BubbleSort, Sorter};
+    use pretty_assertions::assert_eq;
 
     #[test]
     fn test_bubble() {
         let mut things = vec![4, 1, 5, 2, 3];
-        sort::<_, BubbleSort>(&mut things);
+        BubbleSort::sort(&mut things);
         assert_eq!(things, vec![1, 2, 3, 4, 5]);
     }
 }

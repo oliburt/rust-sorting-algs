@@ -23,7 +23,9 @@ impl Sorter for InsertionSort {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use super::{InsertionSort, Sorter};
+
+    use pretty_assertions::assert_eq;
 
     #[test]
     fn test_insertion() {
