@@ -2,17 +2,9 @@ pub mod bubblesort;
 pub mod insertionsort;
 
 pub trait Sorter {
-    fn sort<T>(slice: &mut [T])
+    fn sort<T>(&self, slice: &mut [T])
     where
         T: Ord;
-}
-
-pub fn sort<T, S>(slice: &mut [T])
-where
-    T: Ord,
-    S: Sorter,
-{
-    S::sort(slice)
 }
 
 #[cfg(test)]
@@ -21,7 +13,7 @@ mod tests {
 
     struct StdSorter;
     impl Sorter for StdSorter {
-        fn sort<T>(slice: &mut [T])
+        fn sort<T>(&self, slice: &mut [T])
         where
             T: Ord,
         {
@@ -32,7 +24,7 @@ mod tests {
     fn std_works() {
         let mut things = vec![4, 2, 3, 1];
 
-        sort::<_, StdSorter>(&mut things);
+        StdSorter.sort(&mut things);
         assert_eq!(things, vec![1, 2, 3, 4]);
     }
 }

@@ -1,4 +1,4 @@
-use criterion::{criterion_group, criterion_main, Criterion};
+use criterion::{black_box, criterion_group, criterion_main, Criterion};
 use orst::bubblesort::BubbleSort;
 use orst::insertionsort::InsertionSort;
 use orst::Sorter;
@@ -15,13 +15,27 @@ where
 }
 
 pub fn criterion_benchmark(c: &mut Criterion) {
-    let upper_limit = 10000;
+    let upper_limit = black_box(10000);
     c.bench_function("bubblesort", |b| {
-        b.iter(|| run(upper_limit, |v| BubbleSort::sort(v)))
+        b.iter(|| run(upper_limit, |v| BubbleSort.sort(v)))
     });
 
-    c.bench_function("insertionsort", |b| {
-        b.iter(|| run(upper_limit, |v| InsertionSort::sort(v)))
+    c.bench_function("insertionsort_non_binary", |b| {
+        b.iter(|| {
+            run(upper_limit, |v| {
+                let sorter = InsertionSort::new(false);
+                sorter.sort(v)
+            })
+        })
+    });
+
+    c.bench_function("insertionsort_binary", |b| {
+        b.iter(|| {
+            run(upper_limit, |v| {
+                let sorter = InsertionSort::new(true);
+                sorter.sort(v)
+            })
+        })
     });
 }
 
